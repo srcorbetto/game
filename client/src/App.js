@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import Login from './components/Login/Login';
 import './App.css';
 
 class App extends Component {
 state = {
-    data: null
+    data: null,
+    poop: 'poop'
   };
 
   componentDidMount() {
@@ -26,7 +28,9 @@ state = {
   render() {
     return (
       <div className="App"> 
-        <p className="App-intro">{this.state.data}</p>
+        <div className="container">
+          <Login data={this.state.poop} />
+        </div>
       </div>
     );
   }

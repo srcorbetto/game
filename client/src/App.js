@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import { config } from './firebaseConfig';
+import { Link, Route } from 'react-router-dom';
 import Login from './components/Login/Login';
 import './App.css';
 
-const firebaseAapp = firebase.initializeApp(config);
+firebase.initializeApp(config);
 
 firebase.auth().onAuthStateChanged(firebaseUser => {
   if (firebaseUser) {
@@ -18,9 +19,7 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
 
 class App extends Component {
 state = {
-    data: null,
-    email: null,
-    password: null
+    data: null
   };
 
   componentDidMount() {
@@ -75,11 +74,16 @@ state = {
     return (
       <div className="App"> 
         <div className="container">
-          <Login emailInput={this.recordInput}
-                 passwordInput={this.recordInput}
-                 signUpUser={this.handleAuthState}
-                 logInUser={this.handleAuthState} 
-                 logOutUser={this.handleAuthState}  
+          <Route
+            path="/bee"
+            render={() => {
+              <Login emailInput={this.recordInput}
+                     passwordInput={this.recordInput}
+                     signUpUser={this.handleAuthState}
+                     logInUser={this.handleAuthState} 
+                     logOutUser={this.handleAuthState}  
+              />
+            }}
           />
         </div>
       </div>

@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import * as firebase from 'firebase';
+import { config } from './firebaseConfig';
 import Login from './components/Login/Login';
 import './App.css';
+
+const firebaseAapp = firebase.initializeApp(config);
 
 class App extends Component {
 state = {
@@ -25,11 +29,16 @@ state = {
     return body;
   };
 
+  recordEmail = e => {
+    console.log(e);
+  }
+
   render() {
     return (
       <div className="App"> 
         <div className="container">
-          <Login data={this.state.poop} />
+          <Login click={this.recordEmail} 
+          />
         </div>
       </div>
     );

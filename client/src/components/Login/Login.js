@@ -20,7 +20,7 @@ const Login = props => {
                     <Link to="/create">Create character</Link>
                 </button>
                 <button id="logInBtn" onClick={props.logInUser} type="submit" className="btn btn-secondary">
-                    {/* <Link to="/play">Log in</Link> */}
+                    {props.link}
                     Log in
                 </button>
                 <button id="logOutBtn" onClick={props.logOutUser} type="submit" className="btn btn-primary">

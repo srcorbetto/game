@@ -19,7 +19,9 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
 
 class App extends Component {
 state = {
-    data: null
+  email: null,
+  password: null,
+  userDataPresent: false
   };
 
   componentDidMount() {
@@ -57,11 +59,11 @@ state = {
     const password = this.state.password;
     const auth = firebase.auth();
     const btnBeingPressed = e.target.id;
-    if (btnBeingPressed === 'signUpBtn') {
+    if (btnBeingPressed === 'signUpBtn' && email.length > 0 && password.length > 0) {
       const promise = auth.createUserWithEmailAndPassword(email, password);
       promise
       .catch(e => console.log(e.message));
-    } else if (btnBeingPressed === 'logInBtn') {
+    } else if (btnBeingPressed === 'logInBtn' && email.length > 0 && password.length > 0) {
       const promise = auth.signInWithEmailAndPassword(email, password);
       promise
       .catch(e => console.log(e.message));
@@ -75,15 +77,15 @@ state = {
       <div className="App"> 
         <div className="container">
           <Route
-            path="/bee"
-            render={() => {
+            path="/start"
+            render={() =>
               <Login emailInput={this.recordInput}
                      passwordInput={this.recordInput}
                      signUpUser={this.handleAuthState}
                      logInUser={this.handleAuthState} 
                      logOutUser={this.handleAuthState}  
               />
-            }}
+            }
           />
         </div>
       </div>

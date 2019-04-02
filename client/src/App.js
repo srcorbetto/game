@@ -3,14 +3,17 @@ import * as firebase from 'firebase';
 import { config } from './firebaseConfig';
 import { Link, Route } from 'react-router-dom';
 import Login from './components/Login/Login';
+import TestData from './components/TestData/TestData';
 import './App.css';
 
 firebase.initializeApp(config);
 const db = firebase.firestore();
 
+// Import this function...?
 firebase.auth().onAuthStateChanged(firebaseUser => {
   if (firebaseUser) {
       console.log(firebaseUser);
+      // this.setState({info: firebaseUser})
       // logOut.classList.remove('hide');
   } else {
       console.log('Not logged in');
@@ -22,7 +25,8 @@ class App extends Component {
 state = {
   email: null,
   password: null,
-  userDataPresent: false
+  userDataPresent: false,
+  info: null
   };
 
   componentDidMount() {
@@ -96,6 +100,8 @@ state = {
               />
             }
           />
+          <Route path="/create"
+                 render={() => <TestData />} />
         </div>
       </div>
     );

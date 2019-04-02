@@ -6,6 +6,7 @@ import Login from './components/Login/Login';
 import './App.css';
 
 firebase.initializeApp(config);
+const db = firebase.firestore();
 
 firebase.auth().onAuthStateChanged(firebaseUser => {
   if (firebaseUser) {
@@ -59,11 +60,19 @@ state = {
     const password = this.state.password;
     const auth = firebase.auth();
     const btnBeingPressed = e.target.id;
-    if (btnBeingPressed === 'signUpBtn' && email.length > 0 && password.length > 0) {
+    if (btnBeingPressed === 'signUpBtn' && email.length > 1 && password.length > 1) {
       const promise = auth.createUserWithEmailAndPassword(email, password);
       promise
-      .catch(e => console.log(e.message));
-    } else if (btnBeingPressed === 'logInBtn' && email.length > 0 && password.length > 0) {
+      .then(e => {
+        console.log(e);
+      })
+      // .then(e => {
+      //   window.location = '/woop';
+      // })
+      .catch(e => {
+        console.log(e.message);
+      });
+    } else if (btnBeingPressed === 'logInBtn' && email.length > 1 && password.length > 1) {
       const promise = auth.signInWithEmailAndPassword(email, password);
       promise
       .catch(e => console.log(e.message));

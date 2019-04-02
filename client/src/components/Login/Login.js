@@ -17,7 +17,7 @@ const Login = props => {
                 </div>
 
                 <button id="signUpBtn" onClick={props.signUpUser} type="submit" className="btn btn-primary">
-                    <Link to="/create">Create character</Link>
+                    Create character
                 </button>
                 <button id="logInBtn" onClick={props.logInUser} type="submit" className="btn btn-secondary">
                     {props.link}

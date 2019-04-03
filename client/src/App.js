@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-import * as firebase from 'firebase';
-import { config } from './firebaseConfig';
-import { Link, Route } from 'react-router-dom';
+import { auth, db } from './firebaseConfig';
+import { Link, Route, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Login from './components/Login/Login';
 import TestData from './components/TestData/TestData';
 import './App.css';
 
-firebase.initializeApp(config);
-const db = firebase.firestore();
-
 // Import this function...?
-firebase.auth().onAuthStateChanged(firebaseUser => {
+auth.onAuthStateChanged(firebaseUser => {
   if (firebaseUser) {
       console.log(firebaseUser);
       // this.setState({info: firebaseUser})
@@ -62,7 +59,6 @@ state = {
     e.preventDefault();
     const email = this.state.email;
     const password = this.state.password;
-    const auth = firebase.auth();
     const btnBeingPressed = e.target.id;
     if (btnBeingPressed === 'signUpBtn' && email.length > 1 && password.length > 1) {
       const promise = auth.createUserWithEmailAndPassword(email, password);
@@ -81,7 +77,7 @@ state = {
       promise
       .catch(e => console.log(e.message));
     } else if (btnBeingPressed === 'logOutBtn') {
-      firebase.auth().signOut();
+      auth.signOut();
     }
   }
 
@@ -108,4 +104,20 @@ state = {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+      test: state.test
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+      // onSignUpTest: () => dispatch(actionCreators.signUpUser({
+      //     authType: 'signup',
+      //     email: email,
+      //     password: password
+      // }))
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

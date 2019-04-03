@@ -85,6 +85,7 @@ state = {
     return (
       <div className="App"> 
         <div className="container">
+          {this.props.test}
           <Route
             path="/start"
             render={() =>

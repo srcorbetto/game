@@ -1,7 +1,9 @@
-import { TEST } from './actions';
+import { TEST, USER_LOGGED_IN } from './actions';
 
 const initialState = {
-    test: 'data'
+    test: 'data',
+    userEmail: null,
+    userUid: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -10,6 +12,12 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 test: action.payload
+            }
+        case USER_LOGGED_IN:
+            return {
+                ...state,
+                userEmail: action.payload.email,
+                userUid: action.payload.uid
             }
         default:
             return state

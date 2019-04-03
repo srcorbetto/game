@@ -2,21 +2,27 @@ import React, { Component } from 'react';
 import { auth, db } from './firebaseConfig';
 import { Link, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import * as actionCreators from './redux/actions';
 import Login from './components/Login/Login';
 import TestData from './components/TestData/TestData';
 import './App.css';
 
 // Import this function...?
-auth.onAuthStateChanged(firebaseUser => {
-  if (firebaseUser) {
-      console.log(firebaseUser);
-      // this.setState({info: firebaseUser})
-      // logOut.classList.remove('hide');
-  } else {
-      console.log('Not logged in');
-      // logOut.classList.add('hide');
-  }
-});
+// auth.onAuthStateChanged(firebaseUser => {
+//   if (firebaseUser) {
+//       console.log(firebaseUser);
+//       const user = {
+//         email: firebaseUser.email,
+//         uid: firebaseUser.uid
+//       }
+//       this
+//       // this.setState({info: firebaseUser})
+//       // logOut.classList.remove('hide');
+//   } else {
+//       console.log('Not logged in');
+//       // logOut.classList.add('hide');
+//   }
+// });
 
 class App extends Component {
 state = {
@@ -25,6 +31,25 @@ state = {
   userDataPresent: false,
   info: null
   };
+
+  componentWillMount() {
+    auth.onAuthStateChanged(firebaseUser => {
+      if (firebaseUser) {
+          console.log(firebaseUser);
+          const user = {
+            email: firebaseUser.email,
+            uid: firebaseUser.uid
+          }
+          this.props.handleUserLoggedIn(user);
+          // this.setState({info: firebaseUser})
+          // logOut.classList.remove('hide');
+      } else {
+          console.log('Not logged in');
+          // logOut.classList.add('hide');
+          // Need to clear ReduxLogger...
+      }
+    });
+  }
 
   componentDidMount() {
       // Call our fetch function below once the component mounts
@@ -107,17 +132,15 @@ state = {
 
 const mapStateToProps = state => {
   return {
-      test: state.test
+      test: state.test,
+      userEmail: state.userEmail,
+      userUid: state.userUid
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-      // onSignUpTest: () => dispatch(actionCreators.signUpUser({
-      //     authType: 'signup',
-      //     email: email,
-      //     password: password
-      // }))
+      handleUserLoggedIn: payload => dispatch(actionCreators.userLoggedIn(payload))
   }
 }
 

@@ -7,23 +7,6 @@ import Login from './components/Login/Login';
 import TestData from './components/TestData/TestData';
 import './App.css';
 
-// Import this function...?
-// auth.onAuthStateChanged(firebaseUser => {
-//   if (firebaseUser) {
-//       console.log(firebaseUser);
-//       const user = {
-//         email: firebaseUser.email,
-//         uid: firebaseUser.uid
-//       }
-//       this
-//       // this.setState({info: firebaseUser})
-//       // logOut.classList.remove('hide');
-//   } else {
-//       console.log('Not logged in');
-//       // logOut.classList.add('hide');
-//   }
-// });
-
 class App extends Component {
 state = {
   email: null,
@@ -35,17 +18,14 @@ state = {
   componentWillMount() {
     auth.onAuthStateChanged(firebaseUser => {
       if (firebaseUser) {
-          console.log(firebaseUser);
+          console.log(firebaseUser, 'hey');
           const user = {
             email: firebaseUser.email,
             uid: firebaseUser.uid
           }
           this.props.handleUserLoggedIn(user);
-          // this.setState({info: firebaseUser})
-          // logOut.classList.remove('hide');
       } else {
           console.log('Not logged in');
-          // logOut.classList.add('hide');
           // Need to clear ReduxLogger...
       }
     });
@@ -90,9 +70,23 @@ state = {
       promise
       .then(e => {
         console.log(e);
+        console.log(e.user);
+        console.log(e.user.email,e.user.uid);
+        db.collection('users').doc(e.user.uid).set({
+          email: e.user.email,
+          uid: e.user.uid
+        })
+        // Coming back undefined :o
+        .then(docRef => {
+          console.log("Document written with ID: ", docRef);
+        })
+        .catch(error => {
+          console.error("Error adding document: ", error);
+        });
       })
       // .then(e => {
-      //   window.location = '/woop';
+      //   console.log(e);
+        
       // })
       .catch(e => {
         console.log(e.message);

@@ -6,6 +6,7 @@ import * as actionCreators from './redux/actions';
 import Login from './components/Login/Login';
 import TestData from './components/TestData/TestData';
 import './App.css';
+import AframeView from './components/AframeView/AframeView';
 
 class App extends Component {
 state = {
@@ -76,10 +77,6 @@ state = {
           email: e.user.email,
           uid: e.user.uid
         })
-        // Coming back undefined :o
-        .then(docRef => {
-          console.log("Document written with ID: ", docRef);
-        })
         .catch(error => {
           console.error("Error adding document: ", error);
         });
@@ -104,7 +101,6 @@ state = {
     return (
       <div className="App"> 
         <div className="container">
-          {this.props.test}
           <Route
             path="/start"
             render={() =>
@@ -117,7 +113,8 @@ state = {
             }
           />
           <Route path="/create"
-                 render={() => <TestData />} />
+                 render={() => <AframeView />}
+          />
         </div>
       </div>
     );

@@ -13,3 +13,12 @@ export const userLoggedIn = payload => dispatch => {
         payload: payload
     })
 }
+
+// Doesn't need a payload
+export const USER_LOGGED_OUT = 'USER_LOGGED_OUT';
+export const userLoggedOut = payload => dispatch => {
+    return dispatch({
+        type: USER_LOGGED_OUT,
+        payload: payload
+    })
+}

@@ -22,3 +22,11 @@ export const userLoggedOut = payload => dispatch => {
         payload: payload
     })
 }
+
+export const INIT_CHARACTER = 'INIT_CHARACTER';
+export const initCharacter = payload => dispatch => {
+    return dispatch({
+        type: INIT_CHARACTER,
+        payload: payload
+    })
+}

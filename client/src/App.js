@@ -19,7 +19,21 @@ state = {
   componentWillMount() {
     auth.onAuthStateChanged(firebaseUser => {
       if (firebaseUser) {
-          console.log(firebaseUser, 'hey');
+        const docRef = db.collection('users').doc(firebaseUser.uid);
+        docRef.get().then(doc => {
+          if (doc.exists) {
+              console.log("Document data:", doc.data());
+              //send to state
+              this.props.handleInitCharacter(doc.data())
+          } else {
+              // doc.data() will be undefined in this case
+              console.log("No such document!");
+          }
+        }).catch(error => {
+          console.log("Error getting document:", error);
+        });
+        // ================================
+          console.log(firebaseUser);
           const user = {
             email: firebaseUser.email,
             uid: firebaseUser.uid
@@ -131,7 +145,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-      handleUserLoggedIn: payload => dispatch(actionCreators.userLoggedIn(payload))
+      handleUserLoggedIn: payload => dispatch(actionCreators.userLoggedIn(payload)),
+      handleInitCharacter: payload => dispatch(actionCreators.initCharacter(payload))
   }
 }
 

@@ -1,13 +1,25 @@
-import { TEST, USER_LOGGED_IN, USER_LOGGED_OUT } from './actions';
+import { INIT_CHARACTER, TEST, USER_LOGGED_IN, USER_LOGGED_OUT } from './actions';
 
 const initialState = {
     test: 'data',
     userEmail: null,
+    userName: null,
+    userColor: null,
+    userShape: null,
     userUid: null
 }
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
+        case INIT_CHARACTER:
+            return {
+                ...state,
+                userEmail: action.payload.email,
+                // userName: action.payload.name,
+                userColor: action.payload.color,
+                // userShape: action.payload.shape,
+                userUid: action.payload.uid
+            }
         case TEST:
             return {
                 ...state,

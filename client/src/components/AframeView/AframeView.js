@@ -86,7 +86,7 @@ class AframeView extends Component {
                                  color="#7BC8A4">
                         </a-plane>
                         <a-entity geometry={`primitive: ${this.state.shape}`}
-                                  material={`color: ${this.state.color}`}
+                                  material={`color: ${this.props.userColor}`}
                                   position="0 1.25 -3.225"
                                   rotation="0 -28.9 0">
                         </a-entity>
@@ -102,7 +102,8 @@ const mapStateToProps = state => {
     return {
         test: state.test,
         userEmail: state.userEmail,
-        userUid: state.userUid
+        userUid: state.userUid,
+        userColor: state.userColor
     }
   }
   

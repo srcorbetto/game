@@ -25,6 +25,10 @@ class AframeView extends Component {
                 break;
             case 'n':
                 this.setState({ color: '#333333'})
+                db.collection('users').doc(this.props.userUid).set({
+                    color: '#333333'
+                }, {merge: true})
+                .catch(error => console.log(error))
                 break;
             case 'b':
                 this.setState({ color: 'brown'})
@@ -49,6 +53,24 @@ class AframeView extends Component {
 
     componentDidMount() {
         document.addEventListener('keydown', this.toggleColor);
+        // console.log(this.props.userUid)
+        // const docRef = db.collection('users').doc(this.props.userUid);
+
+        // docRef.get().then(doc => {
+        //     if (doc.exists) {
+        //         console.log("Document data:", doc.data());
+        //     } else {
+        //         // doc.data() will be undefined in this case
+        //         console.log("No such document!");
+        //     }
+        // }).catch(function(error) {
+        //     console.log("Error getting document:", error);
+        // });
+    }
+
+    // Need to find a way to call after data is loaded...
+    componentDidUpdate() {
+        console.log(this.props.userUid)
     }
 
     render() {

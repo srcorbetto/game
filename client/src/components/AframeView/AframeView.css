@@ -1,0 +1,39 @@
+a-scene {
+    width: 100%;
+}
+
+.col-container {
+    position: relative;
+}
+
+.control-holder {
+    position: absolute;
+    z-index: 500;
+    width: 100%;
+    height: 100px;
+    background: pink;
+}
+
+.color, .shape {
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    margin: 10px;
+}
+
+.black {
+    background: #333333;
+}
+
+.purple {
+    background: #b19cd9;
+}
+
+.cone, .box {
+    background: #f1f1f1;
+}
+
+.aframe-holder {
+    width: 100%;
+    height: 100vh;
+}

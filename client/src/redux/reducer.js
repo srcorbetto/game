@@ -1,7 +1,6 @@
-import { INIT_CHARACTER, TEST, USER_LOGGED_IN, USER_LOGGED_OUT } from './actions';
+import { CUSTOMIZE_CHARACTER, INIT_CHARACTER, USER_LOGGED_IN, USER_LOGGED_OUT } from './actions';
 
 const initialState = {
-    test: 'data',
     userEmail: null,
     userName: null,
     userColor: null,
@@ -11,6 +10,18 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
+        case CUSTOMIZE_CHARACTER:
+            if (action.attribute === 'color') {
+                return {
+                    ...state,
+                    userColor: action.payload.color
+                }
+            } else {
+                return {
+                    ...state,
+                    userShape: action.payload.shape
+                }    
+            }
         case INIT_CHARACTER:
             return {
                 ...state,
@@ -19,11 +30,6 @@ const reducer = (state = initialState, action) => {
                 userColor: action.payload.color,
                 // userShape: action.payload.shape,
                 userUid: action.payload.uid
-            }
-        case TEST:
-            return {
-                ...state,
-                test: action.payload
             }
         case USER_LOGGED_IN:
             return {
@@ -35,6 +41,9 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 userEmail: null,
+                userName: null,
+                userColor: null,
+                userShape: null,
                 userUid: null
             }
         default:

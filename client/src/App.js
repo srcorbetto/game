@@ -4,7 +4,6 @@ import { Link, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actionCreators from './redux/actions';
 import Login from './components/Login/Login';
-import TestData from './components/TestData/TestData';
 import './App.css';
 import AframeView from './components/AframeView/AframeView';
 
@@ -32,13 +31,12 @@ state = {
         }).catch(error => {
           console.log("Error getting document:", error);
         });
-        // ================================
-          console.log(firebaseUser);
-          const user = {
-            email: firebaseUser.email,
-            uid: firebaseUser.uid
-          }
-          this.props.handleUserLoggedIn(user);
+        console.log(firebaseUser);
+        const user = {
+          email: firebaseUser.email,
+          uid: firebaseUser.uid
+        }
+        this.props.handleUserLoggedIn(user);
       } else {
           console.log('Not logged in');
           // Need to clear ReduxLogger...
@@ -84,21 +82,15 @@ state = {
       const promise = auth.createUserWithEmailAndPassword(email, password);
       promise
       .then(e => {
-        console.log(e);
-        console.log(e.user);
-        console.log(e.user.email,e.user.uid);
         db.collection('users').doc(e.user.uid).set({
           email: e.user.email,
-          uid: e.user.uid
+          uid: e.user.uid,
+          color: '#f7f7f7'
         })
         .catch(error => {
           console.error("Error adding document: ", error);
         });
       })
-      // .then(e => {
-      //   console.log(e);
-        
-      // })
       .catch(e => {
         console.log(e.message);
       });
@@ -108,6 +100,7 @@ state = {
       .catch(e => console.log(e.message));
     } else if (btnBeingPressed === 'logOutBtn') {
       auth.signOut();
+      window.location = '/start'
     }
   }
 
@@ -137,7 +130,6 @@ state = {
 
 const mapStateToProps = state => {
   return {
-      test: state.test,
       userEmail: state.userEmail,
       userUid: state.userUid
   }
@@ -146,7 +138,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
       handleUserLoggedIn: payload => dispatch(actionCreators.userLoggedIn(payload)),
-      handleInitCharacter: payload => dispatch(actionCreators.initCharacter(payload))
+      handleInitCharacter: payload => dispatch(actionCreators.initCharacter(payload)),
+      handleUserLoggedOut: () => dispatch(actionCreators.userLoggedOut())
   }
 }
 

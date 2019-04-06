@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'aframe';
-import {Entity, Scene} from 'aframe-react';
+// import {Entity, Scene} from 'aframe-react';
 import { auth, db } from '../../firebaseConfig';
 import { Link, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -47,8 +47,9 @@ class AframeView extends Component {
         }
     }
 
-    toggleShape = e => {
-
+   characterConfigure = e => {
+        console.log(`Clicked: ${e}`);
+        console.log(e.target.attributes[1].value)
     }
 
     componentDidMount() {
@@ -77,21 +78,30 @@ class AframeView extends Component {
         return (
             <div className="row">
                 <div className="col">
-                {/* Separate component? */}
-                    <a-scene>
-                        <a-plane position="0 0 -4"
-                                 rotation="-90 0 0"
-                                 width="4"
-                                 height="4"
-                                 color="#7BC8A4">
-                        </a-plane>
-                        <a-entity geometry={`primitive: ${this.state.shape}`}
-                                  material={`color: ${this.props.userColor}`}
-                                  position="0 1.25 -3.225"
-                                  rotation="0 -28.9 0">
-                        </a-entity>
-                        <a-sky color="#ECECEC"></a-sky>
-                    </a-scene>
+                    <div className="col-container">
+                        <div className="control-holder">
+                            <div onClick={this.characterConfigure} className="color black" data-flag="poop"></div>
+                            <div className="color purple"></div>
+                            <div className="shape cone"></div>
+                            <div className="shape box"></div>
+                        </div>
+                        <div className="aframe-holder">
+                            <a-scene embedded>
+                                <a-plane position="0 0 -4"
+                                        rotation="-90 0 0"
+                                        width="4"
+                                        height="4"
+                                        color="#7BC8A4">
+                                </a-plane>
+                                <a-entity geometry={`primitive: ${this.state.shape}`}
+                                        material={`color: ${this.props.userColor}`}
+                                        position="0 1.25 -3.225"
+                                        rotation="0 -28.9 0">
+                                </a-entity>
+                                <a-sky color="#ECECEC"></a-sky>
+                            </a-scene>
+                        </div>
+                    </div>
                 </div>
             </div>
         )
@@ -100,7 +110,6 @@ class AframeView extends Component {
 
 const mapStateToProps = state => {
     return {
-        test: state.test,
         userEmail: state.userEmail,
         userUid: state.userUid,
         userColor: state.userColor

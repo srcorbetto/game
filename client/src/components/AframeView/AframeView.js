@@ -14,41 +14,7 @@ class AframeView extends Component {
         shape: 'box'
     }
 
-    toggleColor = keyPressed => {
-        console.log(keyPressed.key);
-        switch(keyPressed.key) {
-            case 'm':
-                this.setState({ color: 'maroon'})
-                db.collection('users').doc(this.props.userUid).set({
-                    color: 'maroon'
-                }, {merge: true})
-                break;
-            case 'n':
-                this.setState({ color: '#333333'})
-                db.collection('users').doc(this.props.userUid).set({
-                    color: '#333333'
-                }, {merge: true})
-                .catch(error => console.log(error))
-                break;
-            case 'b':
-                this.setState({ color: 'brown'})
-                break;
-            case 'v':
-                this.setState({ color: 'purple'})
-                break;
-            case 'o':
-                this.setState({ shape: 'sphere'})
-                break;
-            case 'p':
-                this.setState({ shape: 'cone'})
-                break;
-            default:
-                console.log('Button not mapped')
-        }
-    }
-
    characterConfigure = e => {
-        const docRef = db.collection('users').doc(this.props.userUid);
         const attribute = e.target.attributes[1].value;
         const propertyValue = e.target.attributes[2].value;
         const payload = {
@@ -58,14 +24,22 @@ class AframeView extends Component {
         this.props.handleCustomizeCharacter(payload);
     }
 
+    saveCharacter = () => {
+        const docRef = db.collection('users').doc(this.props.userUid);
+        // Will add more...
+        docRef.set({
+            color: this.props.userColor,
+            shape: this.props.userShape
+        }, { merge: true })
+        .then(console.log('Save Success!'));
+    }
+
     componentDidMount() {
-        document.addEventListener('keydown', this.toggleColor);
-        console.log(this.props.userUid)
     }
 
     // Need to find a way to call after data is loaded...
     componentDidUpdate() {
-        console.log(this.props.userUid)
+        console.log(this.props.userUid);
     }
 
     render() {
@@ -85,7 +59,9 @@ class AframeView extends Component {
                                  data-value="cone">
                             </div>
                             <div className="shape box"></div>
-                            <div className="save-btn"></div>
+                            <div onClick={this.saveCharacter} 
+                                 className="save-btn">
+                            </div>
                         </div>
                         <div className="aframe-holder">
                             <a-scene embedded>
@@ -122,7 +98,8 @@ const mapStateToProps = state => {
   const mapDispatchToProps = dispatch => {
     return {
         handleUserLoggedIn: payload => dispatch(actionCreators.userLoggedIn(payload)),
-        handleCustomizeCharacter: payload => dispatch(actionCreators.customCharacter(payload))
+        handleCustomizeCharacter: payload => dispatch(actionCreators.customCharacter(payload)),
+        handleSaveCharacterBuild: payload => dispatch(actionCreators.saveCharacterBuild(payload))
     }
   }
 

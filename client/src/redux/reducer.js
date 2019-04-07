@@ -4,7 +4,7 @@ const initialState = {
     userEmail: null,
     userName: null,
     userColor: null,
-    userShape: 'box',
+    userShape: null,
     userUid: null
 }
 
@@ -28,7 +28,7 @@ const reducer = (state = initialState, action) => {
                 userEmail: action.payload.email,
                 // userName: action.payload.name,
                 userColor: action.payload.color,
-                // userShape: action.payload.shape,
+                userShape: action.payload.shape,
                 userUid: action.payload.uid
             }
         case USER_LOGGED_IN:

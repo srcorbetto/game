@@ -4,22 +4,22 @@ const initialState = {
     userEmail: null,
     userName: null,
     userColor: null,
-    userShape: null,
+    userShape: 'box',
     userUid: null
 }
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
         case CUSTOMIZE_CHARACTER:
-            if (action.attribute === 'color') {
+            if (action.payload.attribute === 'color') {
                 return {
                     ...state,
-                    userColor: action.payload.color
+                    userColor: action.payload.propertyValue
                 }
             } else {
                 return {
                     ...state,
-                    userShape: action.payload.shape
+                    userShape: action.payload.propertyValue
                 }    
             }
         case INIT_CHARACTER:

@@ -29,3 +29,11 @@ export const customCharacter = payload => dispatch => {
         payload: payload
     })
 }
+
+export const SAVE_CHARACTER_BUILD = 'SAVE_CHARACTER_BUILD';
+export const saveCharacterBuild = payload => dispatch => {
+    return dispatch({
+        type: SAVE_CHARACTER_BUILD,
+        payload: payload
+    })
+}

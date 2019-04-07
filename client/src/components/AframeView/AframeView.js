@@ -48,25 +48,19 @@ class AframeView extends Component {
     }
 
    characterConfigure = e => {
-        console.log(`Clicked: ${e}`);
-        console.log(e.target.attributes[1].value)
+        const docRef = db.collection('users').doc(this.props.userUid);
+        const attribute = e.target.attributes[1].value;
+        const propertyValue = e.target.attributes[2].value;
+        const payload = {
+            attribute: attribute,
+            propertyValue: propertyValue
+        };
+        this.props.handleCustomizeCharacter(payload);
     }
 
     componentDidMount() {
         document.addEventListener('keydown', this.toggleColor);
-        // console.log(this.props.userUid)
-        // const docRef = db.collection('users').doc(this.props.userUid);
-
-        // docRef.get().then(doc => {
-        //     if (doc.exists) {
-        //         console.log("Document data:", doc.data());
-        //     } else {
-        //         // doc.data() will be undefined in this case
-        //         console.log("No such document!");
-        //     }
-        // }).catch(function(error) {
-        //     console.log("Error getting document:", error);
-        // });
+        console.log(this.props.userUid)
     }
 
     // Need to find a way to call after data is loaded...
@@ -80,10 +74,18 @@ class AframeView extends Component {
                 <div className="col">
                     <div className="col-container">
                         <div className="control-holder">
-                            <div onClick={this.characterConfigure} className="color black" data-flag="poop"></div>
+                            <div onClick={this.characterConfigure}    
+                                 className="color black" data-attribute="color"
+                                 data-value="#333333">
+                            </div>
                             <div className="color purple"></div>
-                            <div className="shape cone"></div>
+                            <div onClick={this.characterConfigure}
+                                 className="shape cone"     
+                                 data-attribute="shape"
+                                 data-value="cone">
+                            </div>
                             <div className="shape box"></div>
+                            <div className="save-btn"></div>
                         </div>
                         <div className="aframe-holder">
                             <a-scene embedded>
@@ -93,7 +95,7 @@ class AframeView extends Component {
                                         height="4"
                                         color="#7BC8A4">
                                 </a-plane>
-                                <a-entity geometry={`primitive: ${this.state.shape}`}
+                                <a-entity geometry={`primitive: ${this.props.userShape}`}
                                         material={`color: ${this.props.userColor}`}
                                         position="0 1.25 -3.225"
                                         rotation="0 -28.9 0">
@@ -112,13 +114,15 @@ const mapStateToProps = state => {
     return {
         userEmail: state.userEmail,
         userUid: state.userUid,
-        userColor: state.userColor
+        userColor: state.userColor,
+        userShape: state.userShape
     }
   }
   
   const mapDispatchToProps = dispatch => {
     return {
-        handleUserLoggedIn: payload => dispatch(actionCreators.userLoggedIn(payload))
+        handleUserLoggedIn: payload => dispatch(actionCreators.userLoggedIn(payload)),
+        handleCustomizeCharacter: payload => dispatch(actionCreators.customCharacter(payload))
     }
   }
 

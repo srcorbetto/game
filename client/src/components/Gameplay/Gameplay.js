@@ -5,32 +5,19 @@ import { Link, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../redux/actions';
 
-import './AframeView.css';
+import './Gameplay.css';
 
-class AframeView extends Component {
+class Gameplay extends Component {
     state = {
-        color: 'green',
-        shape: 'box'
+        cameraPosition: 0.89982,
+        objPosition: -3.225
     }
 
-   characterConfigure = e => {
-        const attribute = e.target.attributes[1].value;
-        const propertyValue = e.target.attributes[2].value;
-        const payload = {
-            attribute: attribute,
-            propertyValue: propertyValue
-        };
-        this.props.handleCustomizeCharacter(payload);
-    }
-
-    saveCharacter = () => {
-        const docRef = db.collection('users').doc(this.props.userUid);
-        // Will add more...
-        docRef.set({
-            color: this.props.userColor,
-            shape: this.props.userShape
-        }, { merge: true })
-        .then(console.log('Save Success!'));
+    moveCharacter = e => {
+        this.setState({
+            cameraPosition: this.state.cameraPosition - .25,
+            objPosition: this.state.objPosition - .25
+        })
     }
 
     componentDidMount() {
@@ -46,33 +33,26 @@ class AframeView extends Component {
             <div className="row">
                 <div className="col">
                     <div className="col-container">
-                        <div className="control-holder">
-                            <div onClick={this.characterConfigure}    
-                                 className="color black" data-attribute="color"
-                                 data-value="#333333">
-                            </div>
-                            <div className="color purple"></div>
-                            <div onClick={this.characterConfigure}
-                                 className="shape cone"     
-                                 data-attribute="shape"
-                                 data-value="cone">
-                            </div>
-                            <div className="shape box"></div>
-                            <div onClick={this.saveCharacter} 
-                                 className="save-btn">
-                            </div>
+                        <div onMouseDown={this.moveCharacter} className="control-holder">
                         </div>
                         <div className="aframe-holder">
                             <a-scene embedded>
+                            <a-entity camera=""
+                                      position={`0 1.6 ${this.state.cameraPosition}`}
+                                      wasd-controls=""
+                                      rotation=""
+                                      look-controls=""
+                                      aframe-injected="" data-aframe-inspector-original-camera="">
+                            </a-entity>
                                 <a-plane position="0 0 -4"
                                         rotation="-90 0 0"
-                                        width="4"
-                                        height="4"
+                                        width="6"
+                                        height="6"
                                         color="#7BC8A4">
                                 </a-plane>
                                 <a-entity geometry={`primitive: ${this.props.userShape}`}
                                         material={`color: ${this.props.userColor}`}
-                                        position="0 1.25 -3.225"
+                                        position={`0 1.25 ${this.state.objPosition}`}
                                         rotation="0 -28.9 0">
                                 </a-entity>
                                 <a-sky color="#ECECEC"></a-sky>
@@ -102,4 +82,4 @@ const mapStateToProps = state => {
     }
   }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AframeView);
+export default connect(mapStateToProps, mapDispatchToProps)(Gameplay);

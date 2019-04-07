@@ -6,6 +6,7 @@ import * as actionCreators from './redux/actions';
 import Login from './components/Login/Login';
 import './App.css';
 import AframeView from './components/AframeView/AframeView';
+import Gameplay from './components/Gameplay/Gameplay';
 
 class App extends Component {
 state = {
@@ -120,7 +121,10 @@ state = {
             }
           />
           <Route path="/create"
-                 render={() => <AframeView />}
+                 component={AframeView}
+          />
+          <Route path="/gameplay"
+                 component={Gameplay}
           />
         </div>
       </div>

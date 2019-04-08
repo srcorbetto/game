@@ -17,22 +17,21 @@ class Gameplay extends Component {
     }
 
     moveCharacter = e => {
-
-        // interval = this.setState({
-        //     cameraPosition: this.state.cameraPosition - .25,
-        //     objPosition: this.state.objPosition - .25
-        // });
-        // setInterval(this.setState({
-        //     cameraPosition: this.state.cameraPosition - .25,
-        //     objPosition: this.state.objPosition - .25
-        // }), 70);
+        interval = setInterval(() => {
+            this.setState({
+                cameraPosition: this.state.cameraPosition - .25,
+                objPosition: this.state.objPosition - .25
+            });
+        }, 70)
     }
 
     stopCharacter = e => {
-        alert('Stopped');
+        // this.setState({isMoving: false});
+        clearInterval(interval)
     }
 
     componentDidMount() {
+        // window.addEventListener('mousedown', interval)
     }
 
     // Need to find a way to call after data is loaded...

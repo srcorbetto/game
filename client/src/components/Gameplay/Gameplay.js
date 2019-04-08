@@ -7,17 +7,29 @@ import * as actionCreators from '../../redux/actions';
 
 import './Gameplay.css';
 
+let interval;
+
 class Gameplay extends Component {
     state = {
         cameraPosition: 0.89982,
-        objPosition: -3.225
+        objPosition: -3.225,
+        isMoving: false
     }
 
     moveCharacter = e => {
-        this.setState({
-            cameraPosition: this.state.cameraPosition - .25,
-            objPosition: this.state.objPosition - .25
-        })
+
+        // interval = this.setState({
+        //     cameraPosition: this.state.cameraPosition - .25,
+        //     objPosition: this.state.objPosition - .25
+        // });
+        // setInterval(this.setState({
+        //     cameraPosition: this.state.cameraPosition - .25,
+        //     objPosition: this.state.objPosition - .25
+        // }), 70);
+    }
+
+    stopCharacter = e => {
+        alert('Stopped');
     }
 
     componentDidMount() {
@@ -33,7 +45,7 @@ class Gameplay extends Component {
             <div className="row">
                 <div className="col">
                     <div className="col-container">
-                        <div onMouseDown={this.moveCharacter} className="control-holder">
+                        <div onMouseDown={this.moveCharacter} onMouseUp={this.stopCharacter} className="control-holder">
                         </div>
                         <div className="aframe-holder">
                             <a-scene embedded>

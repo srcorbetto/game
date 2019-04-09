@@ -7,7 +7,7 @@ import * as actionCreators from '../../redux/actions';
 
 import './Gameplay.css';
 
-let interval;
+let movement;
 
 class Gameplay extends Component {
     state = {
@@ -17,21 +17,26 @@ class Gameplay extends Component {
     }
 
     moveCharacter = e => {
-        interval = setInterval(() => {
-            this.setState({
-                cameraPosition: this.state.cameraPosition - .25,
-                objPosition: this.state.objPosition - .25
-            });
-        }, 70)
+        console.log(e.target.classList[1]);
+        switch(e.target.classList[1]) {
+            case 'left':
+                
+            break;
+        }
+        // movement = setInterval(() => {
+        //     this.setState({
+        //         cameraPosition: this.state.cameraPosition - .25,
+        //         objPosition: this.state.objPosition - .25
+        //     });
+        // }, 25)
     }
 
     stopCharacter = e => {
         // this.setState({isMoving: false});
-        clearInterval(interval)
+        clearInterval(movement)
     }
 
     componentDidMount() {
-        // window.addEventListener('mousedown', interval)
     }
 
     // Need to find a way to call after data is loaded...
@@ -44,7 +49,11 @@ class Gameplay extends Component {
             <div className="row">
                 <div className="col">
                     <div className="col-container">
-                        <div onMouseDown={this.moveCharacter} onMouseUp={this.stopCharacter} className="control-holder">
+                        <div className="control-holder">
+                            <div onMouseDown={this.moveCharacter} className="controls left"></div>
+                            <div onMouseDown={this.moveCharacter} className="controls forward"></div>
+                            <div onMouseDown={this.moveCharacter} className="controls right"></div>
+                            <div onMouseDown={this.moveCharacter} className="controls back"></div>
                         </div>
                         <div className="aframe-holder">
                             <a-scene embedded>

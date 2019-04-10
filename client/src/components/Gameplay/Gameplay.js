@@ -7,7 +7,11 @@ import * as actionCreators from '../../redux/actions';
 
 import './Gameplay.css';
 
+import * as utils from '../../api';
+
 let movement;
+
+// clientSignal();
 
 class Gameplay extends Component {
     state = {
@@ -64,11 +68,11 @@ class Gameplay extends Component {
     }
 
     componentDidMount() {
+        utils.clientSignal();
     }
 
     // Need to find a way to call after data is loaded...
     componentDidUpdate() {
-        // console.log(this.props.userUid);
     }
 
     render() {

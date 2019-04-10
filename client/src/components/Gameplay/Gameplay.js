@@ -11,8 +11,12 @@ let movement;
 
 class Gameplay extends Component {
     state = {
-        cameraPosition: 0.89982,
-        objPosition: -3.225,
+        cameraPositionX: 0,
+        objPositionX: 0,
+        cameraPositionY: 1.6,
+        objPositionY: 1.25,
+        cameraPositionZ: 0.89982,
+        objPositionZ: -3.225,
         isMoving: false
     }
 
@@ -20,15 +24,38 @@ class Gameplay extends Component {
         console.log(e.target.classList[1]);
         switch(e.target.classList[1]) {
             case 'left':
-                
-            break;
+                movement = setInterval(() => {
+                    this.setState({
+                        cameraPositionX: this.state.cameraPositionX - .25,
+                        objPositionX: this.state.objPositionX - .25
+                    });
+                }, 25)
+                break;
+            case 'right':
+                movement = setInterval(() => {
+                    this.setState({
+                        cameraPositionX: this.state.cameraPositionX + .25,
+                        objPositionX: this.state.objPositionX + .25
+                    });
+                }, 25)
+                break;
+            case 'forward':
+                movement = setInterval(() => {
+                    this.setState({
+                        cameraPositionZ: this.state.cameraPositionZ - .25,
+                        objPositionZ: this.state.objPositionZ - .25
+                    });
+                }, 25)
+                break;
+            case 'back':
+                movement = setInterval(() => {
+                    this.setState({
+                        cameraPositionZ: this.state.cameraPositionZ + .25,
+                        objPositionZ: this.state.objPositionZ + .25
+                    });
+                }, 25)
+                break;
         }
-        // movement = setInterval(() => {
-        //     this.setState({
-        //         cameraPosition: this.state.cameraPosition - .25,
-        //         objPosition: this.state.objPosition - .25
-        //     });
-        // }, 25)
     }
 
     stopCharacter = e => {
@@ -41,7 +68,7 @@ class Gameplay extends Component {
 
     // Need to find a way to call after data is loaded...
     componentDidUpdate() {
-        console.log(this.props.userUid);
+        // console.log(this.props.userUid);
     }
 
     render() {
@@ -50,15 +77,27 @@ class Gameplay extends Component {
                 <div className="col">
                     <div className="col-container">
                         <div className="control-holder">
-                            <div onMouseDown={this.moveCharacter} className="controls left"></div>
-                            <div onMouseDown={this.moveCharacter} className="controls forward"></div>
-                            <div onMouseDown={this.moveCharacter} className="controls right"></div>
-                            <div onMouseDown={this.moveCharacter} className="controls back"></div>
+                            <div onMouseDown={this.moveCharacter}
+                                 onMouseUp={this.stopCharacter}
+                                 className="controls left">
+                            </div>
+                            <div onMouseDown={this.moveCharacter}
+                                 onMouseUp={this.stopCharacter}
+                                 className="controls right">
+                            </div>
+                            <div onMouseDown={this.moveCharacter}
+                                 onMouseUp={this.stopCharacter}
+                                 className="controls forward">
+                            </div>
+                            <div onMouseDown={this.moveCharacter}
+                                 onMouseUp={this.stopCharacter}
+                                 className="controls back">
+                            </div>
                         </div>
                         <div className="aframe-holder">
                             <a-scene embedded>
                             <a-entity camera=""
-                                      position={`0 1.6 ${this.state.cameraPosition}`}
+                                      position={`${this.state.cameraPositionX} ${this.state.cameraPositionY} ${this.state.cameraPositionZ}`}
                                       wasd-controls=""
                                       rotation=""
                                       look-controls=""
@@ -72,7 +111,7 @@ class Gameplay extends Component {
                                 </a-plane>
                                 <a-entity geometry={`primitive: ${this.props.userShape}`}
                                         material={`color: ${this.props.userColor}`}
-                                        position={`0 1.25 ${this.state.objPosition}`}
+                                        position={`${this.state.objPositionX} ${this.state.objPositionY} ${this.state.objPositionZ}`}
                                         rotation="0 -28.9 0">
                                 </a-entity>
                                 <a-sky color="#ECECEC"></a-sky>

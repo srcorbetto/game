@@ -86,7 +86,8 @@ state = {
         db.collection('users').doc(e.user.uid).set({
           email: e.user.email,
           uid: e.user.uid,
-          color: '#f7f7f7'
+          color: '#f7f7f7',
+          shape: 'box'
         })
         .catch(error => {
           console.error("Error adding document: ", error);

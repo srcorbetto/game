@@ -7,6 +7,7 @@ import Login from './components/Login/Login';
 import './App.css';
 import AframeView from './components/AframeView/AframeView';
 import Gameplay from './components/Gameplay/Gameplay';
+import Gameplay2 from './components/Gameplay2/Gameplay2';
 
 class App extends Component {
 state = {
@@ -126,6 +127,9 @@ state = {
           />
           <Route path="/gameplay"
                  component={Gameplay}
+          />
+          <Route path="/gameplay2"
+                 component={Gameplay2}
           />
         </div>
       </div>

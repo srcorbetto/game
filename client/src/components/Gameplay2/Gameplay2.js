@@ -4,24 +4,23 @@ import { auth, db } from '../../firebaseConfig';
 import { Link, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../redux/actions';
-
-import './Gameplay.css';
+import './Gameplay2.css';
 
 import * as utils from '../../api';
 
 let movement;
 
-// clientSignal();
-
-class Gameplay extends Component {
+class Gameplay2 extends Component {
     state = {
         cameraPositionX: 0,
         objPositionX: 0,
         cameraPositionY: 1.6,
         objPositionY: 1.25,
-        cameraPositionZ: 0.89982,
-        objPositionZ: -3.225,
-        isMoving: false
+        cameraPositionZ: -2.89982,
+        objPositionZ: -6.225,
+        isMoving: false,
+        otherX: 1.25,
+        otherZ: -2.89982
     }
 
     moveCharacter = e => {
@@ -33,10 +32,7 @@ class Gameplay extends Component {
                         cameraPositionX: this.state.cameraPositionX - .25,
                         objPositionX: this.state.objPositionX - .25
                     });
-                    // Work through seeing character move...
-                    const pos = this.state.cameraPositionX - .25;
-                    utils.characterPosEmit(pos);
-                }, 25);
+                }, 25)
                 break;
             case 'right':
                 movement = setInterval(() => {
@@ -70,8 +66,14 @@ class Gameplay extends Component {
         clearInterval(movement)
     }
 
+    componentWillMount() {
+        utils.socket.on('character move', characterPos => {
+            console.log(characterPos);
+            this.setState({otherX: characterPos});
+        })
+    }
+
     componentDidMount() {
-        utils.clientSignal();
     }
 
     // Need to find a way to call after data is loaded...
@@ -121,6 +123,13 @@ class Gameplay extends Component {
                                         position={`${this.state.objPositionX} ${this.state.objPositionY} ${this.state.objPositionZ}`}
                                         rotation="0 -28.9 0">
                                 </a-entity>
+
+                                {/* Test Shape */}
+                                <a-entity geometry={`primitive: box`}
+                                        material={`color: #f7f7f7`}
+                                        position={`${this.state.otherX} 1.25 -10.225`}
+                                        rotation="0 -28.9 0">
+                                </a-entity>
                                 <a-sky color="#ECECEC"></a-sky>
                             </a-scene>
                         </div>
@@ -148,4 +157,4 @@ const mapStateToProps = state => {
     }
   }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Gameplay);
+export default connect(mapStateToProps, mapDispatchToProps)(Gameplay2);

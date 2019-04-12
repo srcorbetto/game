@@ -12,6 +12,12 @@ app.get('/express_backend', (req, res) => {
 io.on('connection', socket => {
   console.log('A user is connected');
   socket.emit('connection', 'Welcome to the chat room');
+
+  socket.on('character move', pos => {
+    console.log('Character is moving');
+    console.log(pos);
+    io.emit('character move', pos);
+  });
 });
 
 // console.log that your server is up and running

@@ -5,3 +5,7 @@
     display: inline-block;
     background: green;
 }
+
+.controls:hover {
+    background: red;
+}

@@ -18,3 +18,7 @@ export const characterPosReceive = () => {
 export const characterPosEmit = pos => {
     socket.emit('character move', pos);
 }
+
+export const createRoom = room => {
+    socket.emit('create room', room);
+}

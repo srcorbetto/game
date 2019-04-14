@@ -5,8 +5,10 @@
   "dependencies": {
     "aframe": "^0.9.0",
     "aframe-react": "^4.4.0",
+    "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "firebase": "^5.9.2",
+    "random-words": "^1.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^6.0.1",

@@ -51,13 +51,21 @@ class AframeView extends Component {
                                  className="color black" data-attribute="color"
                                  data-value="#333333">
                             </div>
-                            <div className="color purple"></div>
+                            <div onClick={this.characterConfigure}  
+                                 className="color purple"
+                                 data-attribute="color"
+                                 data-value="purple">
+                            </div>
                             <div onClick={this.characterConfigure}
                                  className="shape cone"     
                                  data-attribute="shape"
                                  data-value="cone">
                             </div>
-                            <div className="shape box"></div>
+                            <div onClick={this.characterConfigure}
+                                 className="shape box"     
+                                 data-attribute="shape"
+                                 data-value="box">
+                            </div>
                             <div onClick={this.saveCharacter} 
                                  className="save-btn">
                             </div>

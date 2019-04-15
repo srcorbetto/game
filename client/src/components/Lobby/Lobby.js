@@ -47,6 +47,7 @@ class Lobby extends Component {
             this.setState({
                 roomName: roomName
             });
+            this.props.handleSetGameRoom(roomName);
         })
 
         utils.socket.on('say hello', response => {
@@ -86,4 +87,17 @@ class Lobby extends Component {
     }
 }
 
-export default Lobby;
+const mapStateToProps = state => {
+    return {
+        userEmail: state.userEmail,
+        userUid: state.userUid
+    }
+  }
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+        handleSetGameRoom: payload => dispatch(actionCreators.setGameRoom(payload))
+    }
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Lobby);

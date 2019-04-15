@@ -37,3 +37,11 @@ export const saveCharacterBuild = payload => dispatch => {
         payload: payload
     })
 }
+
+export const SET_GAME_ROOM = 'SET_GAME_ROOM';
+export const setGameRoom = payload => dispatch => {
+    return dispatch({
+        type: SET_GAME_ROOM,
+        payload: payload
+    })
+}

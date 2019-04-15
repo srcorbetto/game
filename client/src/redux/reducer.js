@@ -1,11 +1,12 @@
-import { CUSTOMIZE_CHARACTER, INIT_CHARACTER, USER_LOGGED_IN, USER_LOGGED_OUT } from './actions';
+import { CUSTOMIZE_CHARACTER, INIT_CHARACTER, USER_LOGGED_IN, USER_LOGGED_OUT, SET_GAME_ROOM } from './actions';
 
 const initialState = {
     userEmail: null,
     userName: null,
     userColor: null,
     userShape: null,
-    userUid: null
+    userUid: null,
+    activeRoom: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -30,6 +31,11 @@ const reducer = (state = initialState, action) => {
                 userColor: action.payload.color,
                 userShape: action.payload.shape,
                 userUid: action.payload.uid
+            }
+        case SET_GAME_ROOM:
+            return {
+                ...state,
+                activeRoom: action.payload
             }
         case USER_LOGGED_IN:
             return {

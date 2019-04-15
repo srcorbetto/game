@@ -46,11 +46,27 @@ class Lobby extends Component {
             console.log(roomName);
             this.setState({
                 roomName: roomName
-            })
+            });
         })
 
         utils.socket.on('say hello', response => {
             console.log(response);
+            const initGameData = {
+                room: this.state.roomName,
+                players: [
+                    {
+                        name: 'test',
+                        x: 5,
+                        y: 1,
+                        z: -3,
+                        uid: 'asdkjh45hksdfbsl776',
+                        shape: 'cone',
+                        color: 'purple'
+                    }
+                ]
+            }
+            db.collection('games').doc(this.state.roomName).set(initGameData, {merge: true})
+            .then(console.log('Game data added'))
         })
     }
 
@@ -61,6 +77,9 @@ class Lobby extends Component {
                     <div onClick={this.pingRoom}
                          className="create-game-btn">
                     </div>
+                    <ul>
+
+                    </ul>
                 </div>
             </div>
         )

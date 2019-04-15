@@ -44,5 +44,4 @@ io.on('connection', socket => {
   });
 });
 
-// console.log that your server is up and running
 http.listen(port, () => console.log(`Listening on port ${port}`));

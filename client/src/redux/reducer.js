@@ -1,4 +1,4 @@
-import { CUSTOMIZE_CHARACTER, INIT_CHARACTER, USER_LOGGED_IN, USER_LOGGED_OUT, SET_GAME_ROOM } from './actions';
+import { CUSTOMIZE_CHARACTER, INIT_CHARACTER, MOVE_CHAR_FORWARD, USER_LOGGED_IN, USER_LOGGED_OUT, SET_GAME_ROOM } from './actions';
 
 const initialState = {
     userEmail: null,
@@ -6,7 +6,9 @@ const initialState = {
     userColor: null,
     userShape: null,
     userUid: null,
-    activeRoom: null
+    activeRoom: null,
+    objZ: 0.89982,
+    charZ: -3.225
 }
 
 const reducer = (state = initialState, action) => {
@@ -51,6 +53,12 @@ const reducer = (state = initialState, action) => {
                 userColor: null,
                 userShape: null,
                 userUid: null
+            }
+        case MOVE_CHAR_FORWARD:
+            return {
+                ...state,
+                charZ: action.payload.charZ,
+                objZ: action.payload.objZ
             }
         default:
             return state

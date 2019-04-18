@@ -1,0 +1,19 @@
+.joystick-wrapper {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    z-index: 200;
+    bottom: 50px;
+    left: 50px;
+}
+
+.joystick {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #f7f7f7;
+    position: relative;
+    left: 25px;
+    top: 25px;
+    opacity: .5;
+}

@@ -3,6 +3,7 @@ import 'aframe';
 import { auth, db } from '../../firebaseConfig';
 import { Link, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Joystick from '../Joystick/Joystick';
 import * as actionCreators from '../../redux/actions';
 
 import './Gameplay.css';
@@ -72,6 +73,7 @@ class Gameplay extends Component {
 
     componentDidMount() {
         utils.clientSignal();
+        console.log(this.props.charZ);
     }
 
     // Need to find a way to call after data is loaded...
@@ -101,10 +103,11 @@ class Gameplay extends Component {
                                  className="controls back">
                             </div>
                         </div>
+                        <Joystick />
                         <div className="aframe-holder">
                             <a-scene embedded>
                             <a-entity camera=""
-                                      position={`${this.state.cameraPositionX} ${this.state.cameraPositionY} ${this.state.cameraPositionZ}`}
+                                      position={`0 1.6 ${this.props.objZ}`}
                                       wasd-controls=""
                                       rotation=""
                                       look-controls=""
@@ -118,7 +121,7 @@ class Gameplay extends Component {
                                 </a-plane>
                                 <a-entity geometry={`primitive: ${this.props.userShape}`}
                                         material={`color: ${this.props.userColor}`}
-                                        position={`${this.state.objPositionX} ${this.state.objPositionY} ${this.state.objPositionZ}`}
+                                        position={`0 1.25 ${this.props.charZ}`}
                                         rotation="0 -28.9 0">
                                 </a-entity>
                                 <a-sky color="#ECECEC"></a-sky>
@@ -136,7 +139,9 @@ const mapStateToProps = state => {
         userEmail: state.userEmail,
         userUid: state.userUid,
         userColor: state.userColor,
-        userShape: state.userShape
+        userShape: state.userShape,
+        charZ: state.charZ,
+        objZ: state.objZ
     }
   }
   

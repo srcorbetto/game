@@ -25,8 +25,15 @@ class Joystick extends Component {
             console.log(offsetX, offsetY);
             if (offsetY < 25) {
                 const payload = {
-                    charZ: this.props.charZ - .15,
-                    objZ: this.props.objZ - .15
+                    charZ: this.props.charZ - .10,
+                    objZ: this.props.objZ - .10
+                }
+                console.log(payload);
+                this.props.handleMoveCharacterForward(payload);
+            } else if (offsetY > 25) {
+                const payload = {
+                    charZ: this.props.charZ + .10,
+                    objZ: this.props.objZ + .10
                 }
                 console.log(payload);
                 this.props.handleMoveCharacterForward(payload);

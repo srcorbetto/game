@@ -15,5 +15,10 @@
     position: relative;
     left: 25px;
     top: 25px;
-    opacity: .5;
+    opacity: .75;
+}
+
+.joystick:hover {
+    background: #f1f1f1;
+    opacity: 1;
 }

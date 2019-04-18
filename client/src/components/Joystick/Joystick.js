@@ -15,27 +15,29 @@ class Joystick extends Component {
         shape: 'box'
     }
 
-    // Might need to be mousedown...
+    // Might need to be mousedown...constantly check the offset...
     getInfo = e => {
-        const offsetX = e.target.getBoundingClientRect().x - e.target.parentElement.getBoundingClientRect().x;
-        const offsetY = e.target.getBoundingClientRect().y - e.target.parentElement.getBoundingClientRect().y;
-        console.log(offsetX, offsetY);
-        if (offsetY < 25) {
-            movement = setInterval(() => {
+        movement = setInterval(() => {
+            const joystickWrapperRef = document.getElementById('joystick-wrapper');
+            const joystickRef = document.getElementById('joystick');
+            const offsetX = joystickRef.getBoundingClientRect().x - joystickWrapperRef.getBoundingClientRect().x;
+            const offsetY = joystickRef.getBoundingClientRect().y - joystickWrapperRef.getBoundingClientRect().y;
+            console.log(offsetX, offsetY);
+            if (offsetY < 25) {
                 const payload = {
                     charZ: this.props.charZ - .15,
                     objZ: this.props.objZ - .15
                 }
                 console.log(payload);
                 this.props.handleMoveCharacterForward(payload);
-            }, 25)
-        }
+            }
+        }, 25)
     }
 
     resetJoystick = e => {
         const joystickRef = document.getElementById('joystick');
         joystickRef.style.transform = 'none';
-        // console.log(e.target)
+        clearInterval(movement);
     }
 
     componentDidMount() {
@@ -48,8 +50,8 @@ class Joystick extends Component {
 
     render() {
         return (
-            <div className="joystick-wrapper">
-                <Draggable onDrag={this.getInfo}
+            <div id="joystick-wrapper" className="joystick-wrapper">
+                <Draggable onStart={this.getInfo}
                            onStop={this.resetJoystick}
                            bounds="parent">
                     <div id="joystick"

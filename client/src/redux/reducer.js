@@ -7,8 +7,10 @@ const initialState = {
     userShape: null,
     userUid: null,
     activeRoom: null,
-    objZ: 0.89982,
-    charZ: -3.225
+    objZ: 2.5,
+    charZ: -3.225,
+    objX: 0,
+    charX: 0
 }
 
 const reducer = (state = initialState, action) => {
@@ -58,7 +60,9 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 charZ: action.payload.charZ,
-                objZ: action.payload.objZ
+                objZ: action.payload.objZ,
+                charX: action.payload.charX,
+                objX: action.payload.objX
             }
         default:
             return state

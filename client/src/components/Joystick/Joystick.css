@@ -5,6 +5,7 @@
     z-index: 200;
     bottom: 50px;
     left: 50px;
+    background: blue;
 }
 
 .joystick {
@@ -16,6 +17,7 @@
     left: 25px;
     top: 25px;
     opacity: .75;
+    transition: .25;
 }
 
 .joystick:hover {

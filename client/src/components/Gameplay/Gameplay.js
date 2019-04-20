@@ -106,13 +106,16 @@ class Gameplay extends Component {
                         <Joystick />
                         <div className="aframe-holder">
                             <a-scene embedded>
-                            <a-entity camera=""
-                                      position={`0 1.6 ${this.props.objZ}`}
-                                      wasd-controls=""
-                                      rotation=""
-                                      look-controls=""
-                                      aframe-injected="" data-aframe-inspector-original-camera="">
-                            </a-entity>
+                                <a-entity id="rig"
+                                          position={`${this.props.objX} 3 ${this.props.objZ}`}
+                                          rotation={`-12 0 0`}>
+                                    <a-entity camera=""
+                                        wasd-controls=""
+                                        rotation=""
+                                        look-controls=""
+                                        aframe-injected="" data-aframe-inspector-original-camera="">
+                                    </a-entity>
+                                </a-entity>
                                 <a-plane position="0 0 -4"
                                         rotation="-90 0 0"
                                         width="6"
@@ -121,7 +124,7 @@ class Gameplay extends Component {
                                 </a-plane>
                                 <a-entity geometry={`primitive: ${this.props.userShape}`}
                                         material={`color: ${this.props.userColor}`}
-                                        position={`0 1.25 ${this.props.charZ}`}
+                                        position={`${this.props.charX} 1.25 ${this.props.charZ}`}
                                         rotation="0 -28.9 0">
                                 </a-entity>
                                 <a-sky color="#ECECEC"></a-sky>
@@ -141,7 +144,9 @@ const mapStateToProps = state => {
         userColor: state.userColor,
         userShape: state.userShape,
         charZ: state.charZ,
-        objZ: state.objZ
+        objZ: state.objZ,
+        charX: state.charX,
+        objX: state.objX
     }
   }
   

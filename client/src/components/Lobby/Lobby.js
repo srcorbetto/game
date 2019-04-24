@@ -39,6 +39,8 @@ class Lobby extends Component {
     componentWillMount() {
         db.collection('games')
         .onSnapshot(querySnapshot => {
+            // Clears the state before pulling new state
+            this.setState({roomData: []});
             querySnapshot.forEach(doc => {
                 this.setState({ roomData: [...this.state.roomData, doc.data()] })
                 console.log(doc.data());

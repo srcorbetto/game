@@ -14,19 +14,14 @@ import * as utils from '../../api';
 class Lobby extends Component {
     state = {
         test: 'test',
-        roomName: null
+        roomName: null,
+        roomData: []
     }
 
     generateGameRoom = e => {
         // Generate random word
         const roomName = randomWords();
         // create custom socket (room)
-
-        // axios.get(`/create-room?roomName=${roomName}`)
-        // .then(response => {
-        //     console.log(response.data);
-        // })
-        // .catch(error => console.log(error))
         utils.createRoom(roomName);
     }
 
@@ -42,6 +37,14 @@ class Lobby extends Component {
     }
 
     componentWillMount() {
+        db.collection('games')
+        .onSnapshot(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                this.setState({ roomData: [...this.state.roomData, doc.data()] })
+                console.log(doc.data());
+            });
+        });
+
         utils.socket.on('create room', roomName => {
             console.log(roomName);
             this.setState({
@@ -57,19 +60,30 @@ class Lobby extends Component {
                 players: [
                     {
                         name: 'test',
-                        x: 5,
-                        y: 1,
-                        z: -3,
+                        startingX: 5,
+                        startingY: 1,
+                        startingZ: -3,
                         uid: 'asdkjh45hksdfbsl776',
                         shape: 'cone',
                         color: 'purple'
                     }
                 ]
-            }
+            };
             db.collection('games').doc(this.state.roomName).set(initGameData, {merge: true})
             .then(console.log('Game data added'))
-        })
+        });
     }
+
+// var array1 = [1, 4, 9, 16];
+
+// pass a function to map
+// const map1 = array1.map(x => x * 2);
+
+// console.log(map1);
+// expected output: Array [2, 8, 18, 32]
+
+// this.state.data.map((item,i) => <li key={i}>Test</li>)
+// <li key={i}>Hello</li>
 
     render() {
         return (
@@ -79,7 +93,9 @@ class Lobby extends Component {
                          className="create-game-btn">
                     </div>
                     <ul>
-
+                        {this.state.roomData.map((game, i) => {
+                            return <li key={i}>{game.room}</li>
+                        })}
                     </ul>
                 </div>
             </div>

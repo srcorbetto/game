@@ -11,8 +11,6 @@ import './Lobby.css';
 
 import * as utils from '../../api';
 
-// console.log(randomWords());
-
 class Lobby extends Component {
     state = {
         test: 'test',
@@ -20,6 +18,8 @@ class Lobby extends Component {
         roomData: []
     }
 
+    // Can be consolidated...
+    // Creating the socket room...
     generateGameRoom = e => {
         // Generate random word
         const roomName = randomWords();
@@ -27,6 +27,7 @@ class Lobby extends Component {
         utils.createRoom(roomName);
     }
 
+    // This was to test if I can contain messaging to a room...
     pingRoom = () => {
         utils.socket.emit('say hello', {
             room: this.state.roomName,
@@ -53,14 +54,16 @@ class Lobby extends Component {
             });
         });
 
+        // Pushing the room to state...
         utils.socket.on('create room', roomName => {
             console.log(roomName);
             this.setState({
                 roomName: roomName
             });
             this.props.handleSetGameRoom(roomName);
-        })
+        });
 
+        // This needs to fire with the creation of the room and not the ping event...
         utils.socket.on('say hello', response => {
             console.log(response);
             const initGameData = {
@@ -78,7 +81,7 @@ class Lobby extends Component {
                 ]
             };
             db.collection('games').doc(this.state.roomName).set(initGameData, {merge: true})
-            .then(console.log('Game data added'))
+            .then(console.log('Game data added'));
         });
     }
 
@@ -88,6 +91,7 @@ class Lobby extends Component {
                 <div className="col">
                     <div onClick={this.pingRoom}
                          className="create-game-btn">
+                         Create Game
                     </div>
                     <ul>
                         {this.state.roomData.map((game, i) => {

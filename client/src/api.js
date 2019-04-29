@@ -22,3 +22,7 @@ export const characterPosEmit = pos => {
 export const createRoom = room => {
     socket.emit('create room', room);
 }
+
+// ===================================================
+// TO DO:
+// Rename import from utils. to something that makes more sense

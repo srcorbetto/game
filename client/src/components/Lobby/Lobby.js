@@ -34,6 +34,10 @@ class Lobby extends Component {
         });
     }
 
+    logRoomName = e => {
+        console.log(e.target.innerHTML);
+    }
+
     componentDidMount() {
         this.generateGameRoom();
     }
@@ -88,7 +92,7 @@ class Lobby extends Component {
                     <ul>
                         {this.state.roomData.map((game, i) => {
                             // Need to link to /gameplay
-                            return <li key={i}><Link to="/gameplay">{game.room}</Link></li>
+                            return <li onClick={this.logRoomName} key={i}><Link to="/gameplay">{game.room}</Link></li>
                         })}
                     </ul>
                 </div>

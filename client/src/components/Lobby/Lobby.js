@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { auth, db } from '../../firebaseConfig';
 import { connect } from 'react-redux';
-import { Link, Route, withRouter } from 'react-router-dom';
+import { Link, Route, withRouter, browserHistory } from 'react-router-dom';
 import randomWords from 'random-words';
 import axios from 'axios';
 import Gameplay from '../Gameplay/Gameplay';
@@ -38,10 +38,7 @@ class Lobby extends Component {
         docRef.set({
             activeRoom: roomName
         }, { merge: true })
-        .then(
-            // window.location = '/gameplay'
-            console.log(`Active room set ${roomName}`)
-        )
+        .then(console.log(`Active room set ${roomName}`))
         .then(this.generateGameRoom(roomName))
         .then(console.log('Room created'));
     }
@@ -57,12 +54,13 @@ class Lobby extends Component {
                     name: this.props.userName,
                     uid: this.props.userUid,
                     shape: this.props.userShape,
-                    color: this.props.userShape
+                    color: this.props.userColor
                 }
             ]
         };
         db.collection('games').doc(activeRoom).set(initGameData, {merge: true})
-        .then(console.log('Game data added'));
+        .then(console.log('Game data added'))
+        .then(window.location = '/gameplay');
     }
 
     // This was to test if I can contain messaging to a room...

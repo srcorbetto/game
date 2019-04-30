@@ -46,6 +46,7 @@ export const setGameRoom = payload => dispatch => {
     })
 }
 
+// Update to be more generic...
 export const MOVE_CHAR_FORWARD = 'MOVE_CHAR_FORWARD';
 export const moveCharForward = payload => dispatch => {
     return dispatch({

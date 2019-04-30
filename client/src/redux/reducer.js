@@ -34,7 +34,8 @@ const reducer = (state = initialState, action) => {
                 // userName: action.payload.name,
                 userColor: action.payload.color,
                 userShape: action.payload.shape,
-                userUid: action.payload.uid
+                userUid: action.payload.uid,
+                activeRoom: action.payload.activeRoom
             }
         case SET_GAME_ROOM:
             return {

@@ -20,11 +20,49 @@ class Lobby extends Component {
 
     // Can be consolidated...
     // Creating the socket room...
-    generateGameRoom = e => {
+    setActiveRoom = e => {
         // Generate random word
         const roomName = randomWords();
         // create custom socket (room)
-        utils.createRoom(roomName);
+        // utils.createRoom(roomName);
+
+        this.setState({
+            roomName: roomName
+        });
+
+        // Add method to /gameplay...
+        this.props.handleSetGameRoom(roomName);
+
+        // Save active room to user profile...
+        const docRef = db.collection('users').doc(this.props.userUid);
+        docRef.set({
+            activeRoom: roomName
+        }, { merge: true })
+        .then(
+            // window.location = '/gameplay'
+            console.log(`Active room set ${roomName}`)
+        )
+        .then(this.generateGameRoom(roomName))
+        .then(console.log('Room created'));
+    }
+
+    generateGameRoom = activeRoom => {
+        const initGameData = {
+            room: activeRoom,
+            players: [
+                {
+                    startingX: 5,
+                    startingY: 1,
+                    startingZ: -3,
+                    name: this.props.userName,
+                    uid: this.props.userUid,
+                    shape: this.props.userShape,
+                    color: this.props.userShape
+                }
+            ]
+        };
+        db.collection('games').doc(activeRoom).set(initGameData, {merge: true})
+        .then(console.log('Game data added'));
     }
 
     // This was to test if I can contain messaging to a room...
@@ -35,12 +73,8 @@ class Lobby extends Component {
         });
     }
 
-    logRoomName = e => {
-        console.log(e.target.innerHTML);
-    }
-
     componentDidMount() {
-        this.generateGameRoom();
+        // this.generateGameRoom();
     }
 
     componentWillMount() {
@@ -48,40 +82,21 @@ class Lobby extends Component {
         .onSnapshot(querySnapshot => {
             // Clears the state before pulling new state
             this.setState({roomData: []});
+
             querySnapshot.forEach(doc => {
                 this.setState({ roomData: [...this.state.roomData, doc.data()] })
-                console.log(doc.data());
+                // console.log(doc.data());
             });
         });
 
         // Pushing the room to state...
         utils.socket.on('create room', roomName => {
             console.log(roomName);
-            this.setState({
-                roomName: roomName
-            });
-            this.props.handleSetGameRoom(roomName);
         });
 
         // This needs to fire with the creation of the room and not the ping event...
         utils.socket.on('say hello', response => {
             console.log(response);
-            const initGameData = {
-                room: this.state.roomName,
-                players: [
-                    {
-                        name: 'test',
-                        startingX: 5,
-                        startingY: 1,
-                        startingZ: -3,
-                        uid: 'asdkjh45hksdfbsl776',
-                        shape: 'cone',
-                        color: 'purple'
-                    }
-                ]
-            };
-            db.collection('games').doc(this.state.roomName).set(initGameData, {merge: true})
-            .then(console.log('Game data added'));
         });
     }
 
@@ -89,7 +104,7 @@ class Lobby extends Component {
         return (
             <div className="row">
                 <div className="col">
-                    <div onClick={this.pingRoom}
+                    <div onClick={this.setActiveRoom}
                          className="create-game-btn">
                          Create Game
                     </div>
@@ -108,7 +123,11 @@ class Lobby extends Component {
 const mapStateToProps = state => {
     return {
         userEmail: state.userEmail,
-        userUid: state.userUid
+        userUid: state.userUid,
+        userName: state.userName,
+        userColor: state.userColor,
+        userShape: state.userShape,
+        activeRoom: state.activeRoom
     }
   }
   

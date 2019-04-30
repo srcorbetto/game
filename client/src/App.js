@@ -89,7 +89,8 @@ state = {
           email: e.user.email,
           uid: e.user.uid,
           color: '#f7f7f7',
-          shape: 'box'
+          shape: 'box',
+          activeRoom: null
         })
         .catch(error => {
           console.error("Error adding document: ", error);
@@ -104,7 +105,7 @@ state = {
       .catch(e => console.log(e.message));
     } else if (btnBeingPressed === 'logOutBtn') {
       auth.signOut();
-      window.location = '/start'
+      window.location = '/start';
     }
   }
 

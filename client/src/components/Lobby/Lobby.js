@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { auth, db } from '../../firebaseConfig';
 import { connect } from 'react-redux';
-import { Link, Route, withRouter, browserHistory } from 'react-router-dom';
+import { Link, Route, withRouter } from 'react-router-dom';
 import randomWords from 'random-words';
 import axios from 'axios';
 import Gameplay from '../Gameplay/Gameplay';
@@ -25,10 +25,6 @@ class Lobby extends Component {
         const roomName = randomWords();
         // create custom socket (room)
         // utils.createRoom(roomName);
-
-        this.setState({
-            roomName: roomName
-        });
 
         // Add method to /gameplay...
         this.props.handleSetGameRoom(roomName);
@@ -59,8 +55,11 @@ class Lobby extends Component {
             ]
         };
         db.collection('games').doc(activeRoom).set(initGameData, {merge: true})
-        .then(console.log('Game data added'))
-        .then(window.location = '/gameplay');
+        .then(() => { window.location = '/gameplay' });
+    }
+
+    loadPage = uri => {
+        window.location = uri;
     }
 
     // This was to test if I can contain messaging to a room...
@@ -72,7 +71,7 @@ class Lobby extends Component {
     }
 
     componentDidMount() {
-        // this.generateGameRoom();
+
     }
 
     componentWillMount() {

@@ -10,7 +10,11 @@ const initialState = {
     objZ: 2.5,
     charZ: -3.225,
     objX: 0,
-    charX: 0
+    charX: 0,
+    nestedObject: {
+        test: 'hello',
+        test2: 'hey'
+    }
 }
 
 const reducer = (state = initialState, action) => {

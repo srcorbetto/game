@@ -26,7 +26,20 @@ state = {
           if (doc.exists) {
               console.log("Document data:", doc.data());
               //send to state
-              this.props.handleInitCharacter(doc.data())
+              this.props.handleInitCharacter(doc.data());
+              // Check for active room...
+              if (doc.data().activeRoom) {
+                db.collection('games').doc(doc.data().activeRoom).get().then(gameData => {
+                  if (gameData.exists) {
+                      console.log("Game data:", gameData.data().players);
+                  } else {
+                      // doc.data() will be undefined in this case
+                      console.log("No such document!");
+                  }
+                }).catch(function(error) {
+                    console.log("Error getting document:", error);
+                });
+              }
           } else {
               // doc.data() will be undefined in this case
               console.log("No such document!");

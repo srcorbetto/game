@@ -58,10 +58,6 @@ class Lobby extends Component {
         .then(() => { window.location = '/gameplay' });
     }
 
-    loadPage = uri => {
-        window.location = uri;
-    }
-
     // This was to test if I can contain messaging to a room...
     pingRoom = () => {
         utils.socket.emit('say hello', {

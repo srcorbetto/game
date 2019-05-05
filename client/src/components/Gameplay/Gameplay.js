@@ -10,10 +10,6 @@ import './Gameplay.css';
 
 import * as utils from '../../api';
 
-let movement;
-
-// clientSignal();
-
 class Gameplay extends Component {
     state = {
         cameraPositionX: 0,
@@ -25,59 +21,27 @@ class Gameplay extends Component {
         isMoving: false
     }
 
-    moveCharacter = e => {
-        console.log(e.target.classList[1]);
-        switch(e.target.classList[1]) {
-            case 'left':
-                movement = setInterval(() => {
-                    this.setState({
-                        cameraPositionX: this.state.cameraPositionX - .25,
-                        objPositionX: this.state.objPositionX - .25
-                    });
-                    // Work through seeing character move...
-                    const pos = this.state.cameraPositionX - .25;
-                    utils.characterPosEmit(pos);
-                }, 25);
-                break;
-            case 'right':
-                movement = setInterval(() => {
-                    this.setState({
-                        cameraPositionX: this.state.cameraPositionX + .25,
-                        objPositionX: this.state.objPositionX + .25
-                    });
-                }, 25)
-                break;
-            case 'forward':
-                movement = setInterval(() => {
-                    this.setState({
-                        cameraPositionZ: this.state.cameraPositionZ - .25,
-                        objPositionZ: this.state.objPositionZ - .25
-                    });
-                }, 25)
-                break;
-            case 'back':
-                movement = setInterval(() => {
-                    this.setState({
-                        cameraPositionZ: this.state.cameraPositionZ + .25,
-                        objPositionZ: this.state.objPositionZ + .25
-                    });
-                }, 25)
-                break;
-        }
+    getActiveRoom = e => {
+        // Need to wait until state is loaded
+        db.collection('games').doc(this.props.activeRoom)
+        .onSnapshot(doc => {
+            console.log("Room data: ", doc.data());
+        });
     }
 
-    stopCharacter = e => {
-        // this.setState({isMoving: false});
-        clearInterval(movement)
+    componentWillMount() {
     }
 
     componentDidMount() {
         utils.clientSignal();
-        console.log(this.props.charZ);
+        if (this.props.activeRoom !== null) {
+            this.getActiveRoom();
+        }
     }
 
     // Need to find a way to call after data is loaded...
     componentDidUpdate() {
+        // this.getActiveRoom();
     }
 
     render() {
@@ -85,24 +49,6 @@ class Gameplay extends Component {
             <div className="row">
                 <div className="col">
                     <div className="col-container">
-                        <div className="control-holder">
-                            <div onMouseDown={this.moveCharacter}
-                                 onMouseUp={this.stopCharacter}
-                                 className="controls left">
-                            </div>
-                            <div onMouseDown={this.moveCharacter}
-                                 onMouseUp={this.stopCharacter}
-                                 className="controls right">
-                            </div>
-                            <div onMouseDown={this.moveCharacter}
-                                 onMouseUp={this.stopCharacter}
-                                 className="controls forward">
-                            </div>
-                            <div onMouseDown={this.moveCharacter}
-                                 onMouseUp={this.stopCharacter}
-                                 className="controls back">
-                            </div>
-                        </div>
                         <Joystick />
                         <div className="aframe-holder">
                             <a-scene embedded>
@@ -143,6 +89,7 @@ const mapStateToProps = state => {
         userUid: state.userUid,
         userColor: state.userColor,
         userShape: state.userShape,
+        activeRoom: state.activeRoom,
         charZ: state.charZ,
         objZ: state.objZ,
         charX: state.charX,
